@@ -1,142 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ZLT Password Generator | TOZED Router Passwords</title>
-<meta name="description" content="Generate real Test, Operator and User passwords for Tozed/ZLT routers from IMEI and MAC address.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ZLT Password Generator | TOZED Router Passwords</title>
+    <meta name="description"
+        content="Generate real Test, Operator and User passwords for Tozed/ZLT routers from IMEI and MAC address.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<div class="backdrop"></div>
-<div class="grain"></div>
+    <div class="backdrop"></div>
+    <div class="grain"></div>
 
-<div class="app">
-  <!-- Header -->
-  <header class="header">
-    <div class="brand">
-      <div class="brand-icon">🔐</div>
-      <div>
-        <h1 class="brand-title">ZLT <span>PASSWORDS</span></h1>
-        <p class="brand-sub">TOZED · Router Password Generator</p>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-badge">⚡ 100% Offline · Works in Browser</div>
-    <h2 class="hero-title">Generate <span class="gold">ZLT</span> passwords<br><span class="orange">instantly</span><span class="gold">.</span></h2>
-    <p class="hero-desc">Enter your router's <strong>IMEI</strong> and <strong>MAC address</strong> to generate the real Operator, User, and Test passwords.</p>
-  </section>
-
-  <!-- Form -->
-  <section class="form-section">
-    <form id="genForm" class="glass-form" onsubmit="return handleSubmit(event)">
-      <div class="form-grid">
-        <div class="field">
-          <label for="imeiInput">📟 IMEI (15 DIGITS)</label>
-          <input type="text" id="imeiInput" inputmode="numeric" maxlength="15" placeholder="e.g. 866758041234567" autocomplete="off" spellcheck="false" oninput="onImeiInput(this)">
-          <div class="field-info">
-            <span id="imeiCount">0/15 digits</span>
-            <span id="imeiStatus"></span>
-          </div>
-        </div>
-        <div class="field">
-          <label for="macInput">📶 MAC ADDRESS</label>
-          <input type="text" id="macInput" maxlength="17" placeholder="AA:BB:CC:DD:EE:FF" autocomplete="off" spellcheck="false" class="uppercase" oninput="onMacInput(this)">
-          <div class="field-info">
-            <span id="macCount">0/12 hex</span>
-            <span id="macStatus"></span>
-          </div>
-        </div>
-      </div>
-      <div class="form-footer">
-        <div class="secure-note">🛡️ Runs in your browser · Nothing sent anywhere</div>
-        <button type="submit" class="btn-generate" id="submitBtn" disabled>
-          🔑 Generate Passwords
-        </button>
-      </div>
-      <div class="error-msg" id="errorMsg" style="display:none"></div>
-    </form>
-  </section>
-
-  <!-- Results -->
-  <section class="results" id="resultsSection" style="display:none">
-    <div class="results-grid">
-      <!-- Operator -->
-      <div class="result-card highlight" id="operatorCard">
-        <div class="card-top">
-          <div class="card-label">
-            <div class="card-icon operator-icon">🛡️</div>
-            <div>
-              <div class="card-title">OPERATOR</div>
-              <div class="card-sub">Admin / Operator login</div>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="brand">
+                <div class="brand-icon">🔐</div>
+                <div>
+                    <h1 class="brand-title">ZLT <span>PASSWORDS</span></h1>
+                    <p class="brand-sub">TOZED · Router Password Generator</p>
+                </div>
             </div>
-          </div>
-          <button class="copy-btn" onclick="copyVal('operatorVal')" id="copyOp">📋 Copy</button>
-        </div>
-        <div class="card-value" id="operatorVal">—</div>
-      </div>
-      <!-- User -->
-      <div class="result-card" id="userCard">
-        <div class="card-top">
-          <div class="card-label">
-            <div class="card-icon user-icon">🔑</div>
-            <div>
-              <div class="card-title">USER</div>
-              <div class="card-sub">Default user login</div>
+        </header>
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-badge">⚡ Made By-Smartzone · Works in Browser</div>
+            <h2 class="hero-title">Generate <span class="gold">ZLT</span> passwords<br><span
+                    class="orange">instantly</span><span class="gold">.</span></h2>
+            <p class="hero-desc">Enter your router's <strong>IMEI</strong> and <strong>MAC address</strong> to generate
+                the real Operator, User, and Test passwords.</p>
+        </section>
+
+        <!-- Form -->
+        <section class="form-section">
+            <form id="genForm" class="glass-form" onsubmit="return handleSubmit(event)">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="imeiInput">📟 IMEI (15 DIGITS)</label>
+                        <input type="text" id="imeiInput" inputmode="numeric" maxlength="15"
+                            placeholder="e.g. 866758041234567" autocomplete="off" spellcheck="false"
+                            oninput="onImeiInput(this)">
+                        <div class="field-info">
+                            <span id="imeiCount">0/15 digits</span>
+                            <span id="imeiStatus"></span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="macInput">📶 MAC ADDRESS</label>
+                        <input type="text" id="macInput" maxlength="17" placeholder="AA:BB:CC:DD:EE:FF"
+                            autocomplete="off" spellcheck="false" class="uppercase" oninput="onMacInput(this)">
+                        <div class="field-info">
+                            <span id="macCount">0/12 hex</span>
+                            <span id="macStatus"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-footer">
+                    <div class="secure-note">🛡️ Runs in your browser · Nothing sent anywhere</div>
+                    <button type="submit" class="btn-generate" id="submitBtn" disabled>
+                        🔑 Generate Passwords
+                    </button>
+                </div>
+                <div class="error-msg" id="errorMsg" style="display:none"></div>
+            </form>
+        </section>
+
+        <!-- Results -->
+        <section class="results" id="resultsSection" style="display:none">
+            <div class="results-grid">
+                <!-- Operator -->
+                <div class="result-card highlight" id="operatorCard">
+                    <div class="card-top">
+                        <div class="card-label">
+                            <div class="card-icon operator-icon">🛡️</div>
+                            <div>
+                                <div class="card-title">OPERATOR</div>
+                                <div class="card-sub">Admin / Operator login</div>
+                            </div>
+                        </div>
+                        <button class="copy-btn" onclick="copyVal('operatorVal')" id="copyOp">📋 Copy</button>
+                    </div>
+                    <div class="card-value" id="operatorVal">—</div>
+                </div>
+                <!-- User -->
+                <div class="result-card" id="userCard">
+                    <div class="card-top">
+                        <div class="card-label">
+                            <div class="card-icon user-icon">🔑</div>
+                            <div>
+                                <div class="card-title">USER</div>
+                                <div class="card-sub">Default user login</div>
+                            </div>
+                        </div>
+                        <button class="copy-btn" onclick="copyVal('userVal')" id="copyUs">📋 Copy</button>
+                    </div>
+                    <div class="card-value" id="userVal">—</div>
+                </div>
+                <!-- Test -->
+                <div class="result-card" id="testCard">
+                    <div class="card-top">
+                        <div class="card-label">
+                            <div class="card-icon test-icon">📟</div>
+                            <div>
+                                <div class="card-title">TEST</div>
+                                <div class="card-sub">Test / diagnostic login</div>
+                            </div>
+                        </div>
+                        <button class="copy-btn" onclick="copyVal('testVal')" id="copyTe">📋 Copy</button>
+                    </div>
+                    <div class="card-value" id="testVal">—</div>
+                </div>
             </div>
-          </div>
-          <button class="copy-btn" onclick="copyVal('userVal')" id="copyUs">📋 Copy</button>
-        </div>
-        <div class="card-value" id="userVal">—</div>
-      </div>
-      <!-- Test -->
-      <div class="result-card" id="testCard">
-        <div class="card-top">
-          <div class="card-label">
-            <div class="card-icon test-icon">📟</div>
-            <div>
-              <div class="card-title">TEST</div>
-              <div class="card-sub">Test / diagnostic login</div>
+            <div class="warnings" id="warnings" style="display:none"></div>
+            <!-- Login Info -->
+            <div class="login-info">
+                <h3>📋 Default Login Usernames</h3>
+                <div class="login-grid">
+                    <div class="login-item"><span class="login-label">Operator:</span> <code>admin</code></div>
+                    <div class="login-item"><span class="login-label">User:</span> <code>user</code> or
+                        <code>TZ_USER</code></div>
+                    <div class="login-item"><span class="login-label">Test:</span> <code>sztozed</code></div>
+                </div>
             </div>
-          </div>
-          <button class="copy-btn" onclick="copyVal('testVal')" id="copyTe">📋 Copy</button>
-        </div>
-        <div class="card-value" id="testVal">—</div>
-      </div>
-    </div>
-    <div class="warnings" id="warnings" style="display:none"></div>
-    <!-- Login Info -->
-    <div class="login-info">
-      <h3>📋 Default Login Usernames</h3>
-      <div class="login-grid">
-        <div class="login-item"><span class="login-label">Operator:</span> <code>admin</code></div>
-        <div class="login-item"><span class="login-label">User:</span> <code>user</code> or <code>TZ_USER</code></div>
-        <div class="login-item"><span class="login-label">Test:</span> <code>sztozed</code></div>
-      </div>
-    </div>
-  </section>
+        </section>
 
-  <!-- Placeholder when no results -->
-  <section class="placeholder-section" id="placeholderSection">
-    <div class="results-grid dimmed">
-      <div class="result-card placeholder-card"><div class="ph-label">Operator password</div><div class="ph-dots">••••••••</div></div>
-      <div class="result-card placeholder-card"><div class="ph-label">User password</div><div class="ph-dots">••••••••</div></div>
-      <div class="result-card placeholder-card"><div class="ph-label">Test password</div><div class="ph-dots">••••••••</div></div>
+        <!-- Placeholder when no results -->
+        <section class="placeholder-section" id="placeholderSection">
+            <div class="results-grid dimmed">
+                <div class="result-card placeholder-card">
+                    <div class="ph-label">Operator password</div>
+                    <div class="ph-dots">••••••••</div>
+                </div>
+                <div class="result-card placeholder-card">
+                    <div class="ph-label">User password</div>
+                    <div class="ph-dots">••••••••</div>
+                </div>
+                <div class="result-card placeholder-card">
+                    <div class="ph-label">Test password</div>
+                    <div class="ph-dots">••••••••</div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p class="footer-brand">MADE_BY_SmartZone · WhatsApp: <a href="https://wa.me/94786800086"
+                    target="_blank">0786800086</a></p>
+            <p class="footer-models">Works with S50, S12 Pro, P11, P11x, V20 Pro, S10G, S12, M30S and all Tozed/ZLT
+                routers</p>
+        </footer>
     </div>
-  </section>
 
-  <footer class="footer">
-    <p class="footer-brand">MADE_BY_SmartZone · WhatsApp: <a href="https://wa.me/94786800086" target="_blank">0786800086</a></p>
-    <p class="footer-models">Works with S50, S12 Pro, P11, P11x, V20 Pro, S10G, S12, M30S and all Tozed/ZLT routers</p>
-  </footer>
-</div>
-
-<script src="app.js"></script>
+    <script src="app.js"></script>
 </body>
+
 </html>
