@@ -66,7 +66,7 @@ function operatorPassNew(imei) {
   if (c.length < 15) return null;
   const data = new Array(c.length);
   for (let i = 0; i < c.length; i++) data[i] = c.charCodeAt(i);
-  return generateFrom(data, { filterAmbiguous: false, numericOnly: false, mod: 62 });
+  return generateFrom(data, { filterAmbiguous: false, numericOnly: false, mod: 36 });
 }
 
 // USER PASSWORD — from MAC
