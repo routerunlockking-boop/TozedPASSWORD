@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tozed Router Password Generator</title>
-    <meta name="description" content="Generate operator passwords for Tozed/ZLT routers using IMEI, MAC address, and serial number.">
+    <meta name="description" content="Generate operator, test, and user passwords for Tozed/ZLT routers - S50, S12 Pro, P11, P11x, V20 Pro and more.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -42,89 +42,122 @@
                 </div>
                 <div>
                     <h1>Tozed Password Generator</h1>
-                    <p class="tagline">Manual IMEI / MAC / Serial → Password</p>
+                    <p class="tagline">Operator · Test · User — Password Recovery Tool</p>
                 </div>
             </div>
         </header>
 
-        <!-- Input Section -->
-        <section class="glass-card input-section">
+        <!-- Step 1: Model Selection -->
+        <section class="glass-card">
             <div class="section-header">
-                <h2>
-                    <span class="section-icon">📡</span>
-                    Enter Router Details
-                </h2>
-                <p class="section-desc">Enter your Tozed/ZLT router details manually. The tool will generate all possible operator passwords.</p>
+                <h2><span class="step-badge">1</span> Select Router Model</h2>
+                <p class="section-desc">Choose your exact Tozed/ZLT model for model-specific passwords.</p>
+            </div>
+
+            <div class="model-grid" id="modelGrid">
+                <button class="model-card" data-model="ZLT-S50" onclick="selectModel(this)">
+                    <div class="model-icon">📡</div>
+                    <div class="model-name">ZLT S50</div>
+                    <div class="model-type">5G CPE</div>
+                </button>
+                <button class="model-card" data-model="ZLT-S12-Pro" onclick="selectModel(this)">
+                    <div class="model-icon">📶</div>
+                    <div class="model-name">ZLT S12 Pro</div>
+                    <div class="model-type">4G LTE CPE</div>
+                </button>
+                <button class="model-card" data-model="ZLT-P11" onclick="selectModel(this)">
+                    <div class="model-icon">🔌</div>
+                    <div class="model-name">ZLT P11</div>
+                    <div class="model-type">4G MiFi</div>
+                </button>
+                <button class="model-card" data-model="ZLT-P11x" onclick="selectModel(this)">
+                    <div class="model-icon">📱</div>
+                    <div class="model-name">ZLT P11x</div>
+                    <div class="model-type">4G MiFi</div>
+                </button>
+                <button class="model-card" data-model="ZLT-V20-Pro" onclick="selectModel(this)">
+                    <div class="model-icon">🏠</div>
+                    <div class="model-name">ZLT V20 Pro</div>
+                    <div class="model-type">5G CPE</div>
+                </button>
+                <button class="model-card" data-model="ZLT-S10G" onclick="selectModel(this)">
+                    <div class="model-icon">📻</div>
+                    <div class="model-name">ZLT S10G</div>
+                    <div class="model-type">4G LTE CPE</div>
+                </button>
+                <button class="model-card" data-model="ZLT-S12" onclick="selectModel(this)">
+                    <div class="model-icon">📡</div>
+                    <div class="model-name">ZLT S12</div>
+                    <div class="model-type">4G LTE CPE</div>
+                </button>
+                <button class="model-card" data-model="SEI-120G" onclick="selectModel(this)">
+                    <div class="model-icon">🌐</div>
+                    <div class="model-name">SEI 120G</div>
+                    <div class="model-type">4G LTE CPE</div>
+                </button>
+                <button class="model-card" data-model="ZLT-M30S" onclick="selectModel(this)">
+                    <div class="model-icon">📶</div>
+                    <div class="model-name">ZLT M30S</div>
+                    <div class="model-type">4G MiFi</div>
+                </button>
+                <button class="model-card" data-model="ZLT-W51" onclick="selectModel(this)">
+                    <div class="model-icon">🔗</div>
+                    <div class="model-name">ZLT W51</div>
+                    <div class="model-type">4G CPE</div>
+                </button>
+                <button class="model-card" data-model="OTHER" onclick="selectModel(this)">
+                    <div class="model-icon">⚙️</div>
+                    <div class="model-name">Other Model</div>
+                    <div class="model-type">Any Tozed/ZLT</div>
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 2: Enter Device Info -->
+        <section class="glass-card">
+            <div class="section-header">
+                <h2><span class="step-badge">2</span> Enter Device Details</h2>
+                <p class="section-desc">Enter any info from the router label. More inputs = more possible passwords generated.</p>
             </div>
 
             <div class="form-grid">
-                <!-- Router Model -->
-                <div class="input-group full-width">
-                    <label for="routerModel">Router Model</label>
-                    <select id="routerModel" onchange="onModelChange()">
-                        <option value="">— Select your model —</option>
-                        <optgroup label="Tozed ZLT S Series">
-                            <option value="ZLT-S10G">ZLT S10G</option>
-                            <option value="ZLT-S10G-Pro">ZLT S10G Pro</option>
-                            <option value="ZLT-S12">ZLT S12</option>
-                            <option value="ZLT-S12-Pro">ZLT S12 Pro</option>
-                            <option value="ZLT-S20">ZLT S20</option>
-                        </optgroup>
-                        <optgroup label="Tozed ZLT X Series">
-                            <option value="ZLT-X21">ZLT X21</option>
-                            <option value="ZLT-X28">ZLT X28</option>
-                        </optgroup>
-                        <optgroup label="Tozed SEI Series">
-                            <option value="SEI-120G">SEI 120G</option>
-                        </optgroup>
-                        <optgroup label="Other / Unknown">
-                            <option value="ZLT-KJ33">ZLT KJ33</option>
-                            <option value="OTHER">Other Tozed/ZLT Model</option>
-                        </optgroup>
-                    </select>
-                </div>
-
-                <!-- IMEI Number -->
                 <div class="input-group">
                     <label for="imeiInput">IMEI Number</label>
                     <div class="input-wrapper">
                         <input type="text" id="imeiInput" placeholder="e.g. 860123456789012" maxlength="15" oninput="validateImei(this)">
                         <span class="char-count" id="imeiCount">0/15</span>
                     </div>
-                    <span class="input-hint">15-digit number (found on router label or in device info)</span>
+                    <span class="input-hint">15 digits — found on router label or dial *#06#</span>
                 </div>
 
-                <!-- MAC Address -->
                 <div class="input-group">
                     <label for="macInput">MAC Address</label>
                     <div class="input-wrapper">
                         <input type="text" id="macInput" placeholder="e.g. AA:BB:CC:DD:EE:FF" maxlength="17" oninput="formatMac(this)">
                     </div>
-                    <span class="input-hint">Found on the router label (bottom/back)</span>
+                    <span class="input-hint">Found on the bottom/back label of router</span>
                 </div>
 
-                <!-- Serial Number -->
                 <div class="input-group">
-                    <label for="serialInput">Serial Number</label>
+                    <label for="serialInput">Serial Number (SN)</label>
                     <div class="input-wrapper">
                         <input type="text" id="serialInput" placeholder="e.g. TZ2024XXXXX">
                     </div>
-                    <span class="input-hint">Router serial number from the label</span>
+                    <span class="input-hint">Serial number from the device label</span>
                 </div>
 
-                <!-- ISP / Operator -->
                 <div class="input-group">
                     <label for="ispSelect">ISP / Operator</label>
                     <select id="ispSelect">
                         <option value="">— Select ISP (optional) —</option>
-                        <optgroup label="Sri Lanka">
+                        <optgroup label="Sri Lanka 🇱🇰">
                             <option value="dialog">Dialog</option>
                             <option value="mobitel">Mobitel</option>
                             <option value="slt">SLT-Mobitel</option>
                             <option value="hutch">Hutch</option>
                             <option value="airtel-lk">Airtel (SL)</option>
                         </optgroup>
-                        <optgroup label="Philippines">
+                        <optgroup label="Philippines 🇵🇭">
                             <option value="globe">Globe</option>
                             <option value="dito">DITO</option>
                             <option value="smart">Smart</option>
@@ -134,6 +167,10 @@
                             <option value="ooredoo">Ooredoo</option>
                             <option value="stc">STC</option>
                         </optgroup>
+                        <optgroup label="Africa">
+                            <option value="mtn">MTN</option>
+                            <option value="vodacom">Vodacom</option>
+                        </optgroup>
                         <optgroup label="Other">
                             <option value="other">Other / Unknown</option>
                         </optgroup>
@@ -141,83 +178,93 @@
                 </div>
             </div>
 
-            <!-- Generate Button -->
             <button class="btn-generate" id="generateBtn" onclick="generatePasswords()">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M8 2L2 8l6 6M12 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 2v16M2 10h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                 </svg>
-                Generate All Possible Passwords
+                Generate All Passwords
             </button>
         </section>
 
-        <!-- Results Section -->
+        <!-- Results -->
         <section class="results-section" id="resultsSection" style="display:none;">
-            <!-- Main Generated Passwords -->
-            <div class="glass-card results-card">
-                <div class="section-header">
-                    <h2>
-                        <span class="section-icon">🔑</span>
-                        Generated Passwords
-                    </h2>
-                    <p class="section-desc">Try each password below — different firmware versions use different patterns.</p>
+
+            <!-- 3 Password Type Cards -->
+            <div class="three-col" id="threePasswords">
+                <!-- Operator Password -->
+                <div class="glass-card pw-type-card operator-card">
+                    <div class="pw-type-header">
+                        <span class="pw-type-badge operator">OPERATOR</span>
+                        <span class="pw-type-desc">Full access / ISP-level</span>
+                    </div>
+                    <div class="pw-type-list" id="operatorPasswords"></div>
                 </div>
 
-                <div class="passwords-list" id="passwordsList">
-                    <!-- Filled by JS -->
+                <!-- Test Password -->
+                <div class="glass-card pw-type-card test-card">
+                    <div class="pw-type-header">
+                        <span class="pw-type-badge test">TEST</span>
+                        <span class="pw-type-desc">Technician / Debug access</span>
+                    </div>
+                    <div class="pw-type-list" id="testPasswords"></div>
+                </div>
+
+                <!-- User Password -->
+                <div class="glass-card pw-type-card user-card">
+                    <div class="pw-type-header">
+                        <span class="pw-type-badge user">USER</span>
+                        <span class="pw-type-desc">Basic user access</span>
+                    </div>
+                    <div class="pw-type-list" id="userPasswords"></div>
                 </div>
             </div>
 
-            <!-- Known Default Credentials -->
-            <div class="glass-card credentials-card">
+            <!-- Generated from IMEI/MAC/SN -->
+            <div class="glass-card">
                 <div class="section-header">
-                    <h2>
-                        <span class="section-icon">📋</span>
-                        Known Default Credentials
-                    </h2>
-                    <p class="section-desc">Common default username/password combinations for Tozed/ZLT routers.</p>
+                    <h2><span class="section-icon">🔑</span> Generated Passwords (from your input)</h2>
+                    <p class="section-desc">These are derived from your IMEI, MAC, and serial number. Try each one.</p>
                 </div>
+                <div class="passwords-list" id="generatedPasswords"></div>
+            </div>
 
+            <!-- Full Credentials Table -->
+            <div class="glass-card">
+                <div class="section-header">
+                    <h2><span class="section-icon">📋</span> All Known Credentials for <span id="modelLabel">this model</span></h2>
+                    <p class="section-desc">Complete database of known username/password combinations.</p>
+                </div>
                 <div class="credentials-table-wrapper">
-                    <table class="credentials-table" id="credentialsTable">
+                    <table class="credentials-table">
                         <thead>
                             <tr>
-                                <th>Access Level</th>
+                                <th>Level</th>
                                 <th>Username</th>
                                 <th>Password</th>
                                 <th>Notes</th>
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody id="credentialsBody">
-                            <!-- Filled by JS -->
-                        </tbody>
+                        <tbody id="credentialsBody"></tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Device Info Summary -->
-            <div class="glass-card summary-card">
+            <!-- Derived Values -->
+            <div class="glass-card">
                 <div class="section-header">
-                    <h2>
-                        <span class="section-icon">📊</span>
-                        Derived Values
-                    </h2>
-                    <p class="section-desc">Computed values from your input used in password generation.</p>
+                    <h2><span class="section-icon">📊</span> Derived Values</h2>
+                    <p class="section-desc">All computed values used in password generation.</p>
                 </div>
-                <div class="derived-grid" id="derivedGrid">
-                    <!-- Filled by JS -->
-                </div>
+                <div class="derived-grid" id="derivedGrid"></div>
             </div>
         </section>
 
-        <!-- Common Gateway IPs -->
-        <section class="glass-card gateway-section">
+        <!-- Gateway IPs -->
+        <section class="glass-card">
             <div class="section-header">
-                <h2>
-                    <span class="section-icon">🌐</span>
-                    Common Gateway IPs
-                </h2>
-                <p class="section-desc">Try these addresses in your browser to access the router panel.</p>
+                <h2><span class="section-icon">🌐</span> Router Login URLs</h2>
+                <p class="section-desc">Click to try — opens the router admin panel in a new tab.</p>
             </div>
             <div class="gateway-list">
                 <a href="http://192.168.254.254" target="_blank" class="gateway-chip">192.168.254.254</a>
