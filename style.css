@@ -173,7 +173,11 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); min-hei
 
 /* Footer */
 .footer { margin-top:48px; padding-top:20px; border-top:1px solid var(--border); text-align:center; }
-.footer p { font-size:0.7rem; color:var(--text-faint); letter-spacing:0.02em; }
+.footer p { font-size:0.75rem; color:var(--text-dim); letter-spacing:0.02em; margin-bottom:8px; }
+.footer-brand { font-weight:700; color:var(--text) !important; }
+.footer-brand a { color:var(--gold); text-decoration:none; transition:color 0.2s; }
+.footer-brand a:hover { color:var(--orange); text-decoration:underline; }
+.footer-models { font-size:0.65rem !important; color:var(--text-faint) !important; opacity:0.8; }
 
 /* Responsive */
 @media (max-width:640px) {
