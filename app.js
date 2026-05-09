@@ -8,7 +8,9 @@
 const AMBIGUOUS = '1ILil';
 
 function alphabetChar(m) {
-  return m < 10 ? 48 + m : m < 36 ? 55 + m : 61 + m;
+  if (m < 10) return 48 + m; // 0-9
+  if (m < 36) return 55 + m; // A-Z
+  return 61 + m; // a-z
 }
 
 function generateFrom(data, opts = {}) {
@@ -30,7 +32,8 @@ function generateFrom(data, opts = {}) {
     if (numericOnly) {
       ch = 48 + (seed % 10);
     } else {
-      ch = alphabetChar(seed % 52);
+      const mod = opts.mod || 52;
+      ch = alphabetChar(seed % mod);
       if (filterAmbiguous && AMBIGUOUS.includes(String.fromCharCode(ch))) ch += 1;
     }
     out[i] = ch;
@@ -54,14 +57,23 @@ function operatorPass(imei) {
   if (c.length < 15) return null;
   const data = new Array(c.length);
   for (let i = 0; i < c.length; i++) data[i] = c.charCodeAt(i);
-  return generateFrom(data, { filterAmbiguous: true, numericOnly: false });
+  return generateFrom(data, { filterAmbiguous: true, numericOnly: false, mod: 52 });
+}
+
+// S50 NEW VERSION OPERATOR — from IMEI (62 chars)
+function operatorPassNew(imei) {
+  const c = String(imei || '').replace(/\s+/g, '');
+  if (c.length < 15) return null;
+  const data = new Array(c.length);
+  for (let i = 0; i < c.length; i++) data[i] = c.charCodeAt(i);
+  return generateFrom(data, { filterAmbiguous: false, numericOnly: false, mod: 62 });
 }
 
 // USER PASSWORD — from MAC
 function userPass(mac) {
   const { bytes } = formatMacBytes(mac || '');
   if (!bytes.length) return null;
-  return generateFrom(bytes, { filterAmbiguous: true, numericOnly: false });
+  return generateFrom(bytes, { filterAmbiguous: true, numericOnly: false, mod: 52 });
 }
 
 // TEST PASSWORD — from IMEI
@@ -143,9 +155,10 @@ function handleSubmit(e) {
   const warnings = [];
 
   // Generate passwords
-  let op = null, us = null, te = null;
+  let op = null, opNew = null, us = null, te = null;
   if (imeiValid) {
     op = operatorPass(imeiRaw);
+    opNew = operatorPassNew(imeiRaw);
     te = testPassword(imeiRaw);
   } else {
     warnings.push('IMEI not provided — skipping Operator and Test passwords.');
@@ -157,7 +170,11 @@ function handleSubmit(e) {
   }
 
   // Display
-  document.getElementById('operatorVal').textContent = op || '—';
+  document.getElementById('operatorVal').innerHTML = op ? `<div>${op} <small>(v1)</small></div>` : '—';
+  if (opNew) {
+    document.getElementById('operatorVal').innerHTML += `<div style="margin-top:4px">${opNew} <small>(S50 New)</small></div>`;
+  }
+  
   document.getElementById('userVal').textContent = us || '—';
   document.getElementById('testVal').textContent = te || '—';
 
@@ -278,7 +295,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function copyVal(id) {
-  const text = document.getElementById(id).textContent;
+  let text = document.getElementById(id).textContent;
+  if (id === 'operatorVal') {
+    // For operator, get the text without (v1) / (S50 New) or copy the last one
+    const div = document.getElementById(id);
+    const lastDiv = div.querySelector('div:last-child');
+    if (lastDiv) {
+        text = lastDiv.childNodes[0].textContent.trim();
+    }
+  }
   if (!text || text === '—') return;
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => flashCopy(id));
