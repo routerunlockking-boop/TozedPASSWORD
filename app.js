@@ -189,6 +189,94 @@ function hideError() {
   document.getElementById('errorMsg').style.display = 'none';
 }
 
+// ======== OCR LOGIC (Scan Sticker) ========
+
+document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('fileInput');
+    const uploadZone = document.getElementById('uploadZone');
+    const ocrLoader = document.getElementById('ocrLoader');
+    const ocrProgress = document.getElementById('ocrProgress');
+
+    if (!fileInput || !uploadZone) return;
+
+    // Handle File Selection
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+            processImage(e.target.files[0]);
+        }
+    });
+
+    // Drag and Drop
+    uploadZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadZone.classList.add('dragover');
+    });
+
+    uploadZone.addEventListener('dragleave', () => {
+        uploadZone.classList.remove('dragover');
+    });
+
+    uploadZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadZone.classList.remove('dragover');
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            processImage(e.dataTransfer.files[0]);
+        }
+    });
+
+    async function processImage(file) {
+        ocrLoader.style.display = 'flex';
+        ocrProgress.textContent = '0%';
+
+        try {
+            const result = await Tesseract.recognize(file, 'eng', {
+                logger: m => {
+                    if (m.status === 'recognizing text') {
+                        ocrProgress.textContent = Math.round(m.progress * 100) + '%';
+                    }
+                }
+            });
+
+            const text = result.data.text;
+            console.log('OCR Output:', text);
+
+            // Regex for IMEI (15 digits)
+            const imeiMatch = text.match(/\b\d{15}\b/);
+            // Regex for MAC (XX:XX:XX:XX:XX:XX or XXXXXXXXXXXX)
+            const macMatch = text.match(/\b([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})\b/) || text.match(/\b[0-9A-Fa-f]{12}\b/);
+
+            let found = false;
+            if (imeiMatch) {
+                const imeiInput = document.getElementById('imeiInput');
+                imeiInput.value = imeiMatch[0];
+                onImeiInput(imeiInput);
+                found = true;
+            }
+
+            if (macMatch) {
+                const macInput = document.getElementById('macInput');
+                macInput.value = macMatch[0].replace(/[:-]/g, '');
+                onMacInput(macInput);
+                found = true;
+            }
+
+            if (found) {
+                // Auto-submit if we found anything
+                document.getElementById('genForm').dispatchEvent(new Event('submit'));
+            } else {
+                alert('Could not find IMEI or MAC in this photo. Please try a clearer picture or enter manually.');
+            }
+
+        } catch (err) {
+            console.error('OCR Error:', err);
+            alert('Error processing image. Please try again.');
+        } finally {
+            ocrLoader.style.display = 'none';
+            fileInput.value = ''; // Reset input
+        }
+    }
+});
+
 function copyVal(id) {
   const text = document.getElementById(id).textContent;
   if (!text || text === '—') return;
