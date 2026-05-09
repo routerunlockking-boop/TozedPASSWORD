@@ -61,36 +61,12 @@ function operatorPass(imei) {
 }
 
 // S50 NEW VERSION OPERATOR — from IMEI (62 chars)
-function customOperatorPass(imei, mac) {
-  const input =
-    String(imei).replace(/\s+/g, "") +
-    String(mac).replace(/[:\s]/g, "").toUpperCase();
-
-  const chars =
-    "ABCDEFGHJKLMNEME9M9cSy9FvfHvcx2gMPkp1H5Dj4YaKufPRsAyon8Tf";
-
-  let hash = 0;
-
-  for (let i = 0; i < input.length; i++) {
-    hash = (hash * 31 + input.charCodeAt(i)) >>> 0;
-  }
-
-  let result = "";
-
-  for (let i = 0; i < 8; i++) {
-    hash = (hash * 1664525 + 1013904223) >>> 0;
-    result += chars[hash % chars.length];
-  }
-
-  return result;
-}
-
-console.log(
-  customOperatorPass(
-    "862624055623767",
-    "D8:42:F7:B2:3A:8C"
-  )
-);
+function operatorPassNew(imei) {
+  const c = String(imei || '').replace(/\s+/g, '');
+  if (c.length < 15) return null;
+  const data = new Array(c.length);
+  for (let i = 0; i < c.length; i++) data[i] = c.charCodeAt(i);
+  return generateFrom(data, { filterAmbiguous: false, numericOnly: false, mod: 62 });
 }
 
 // USER PASSWORD — from MAC
